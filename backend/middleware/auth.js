@@ -19,7 +19,7 @@ exports.authorizedRoles = (...roles) => {
       return next(
         new ErrorHander(
           `Role :${req.user.role} is not allowed to access this resource`,
-          400
+          403
         )
       );
     }
