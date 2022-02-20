@@ -135,3 +135,21 @@ exports.getUserDetails = catchAsyncErrors(async (req, res, next) => {
     user,
   });
 });
+
+// update user password
+exports.updatePassword = catchAsyncErrors(async (req, res, next) => {
+  const user = await User.findById(req.user.id).select('+password');
+
+  const isPasswordMatched = user.comparePassword(req.body.oldPassword);
+
+  if (!isPasswordMatched) {
+    return next(new ErrorHander('invalid email  password'));
+  }
+
+  if (req.body.newPassword !== req.body.confirmPassword) {
+    return next(new ErrorHander('password does not matched', 400));
+  }
+  user.password = req.body.newPassword;
+  await user.save();
+  sendToken(user, 200, res);
+});
