@@ -9,7 +9,7 @@ const orderSchema = new mongoose.Schema({
     pinCode: { type: String, required: true },
     phoneNo: { type: Number, required: true },
   },
-  orderItem: [
+  orderItems: [
     {
       name: {
         type: String,
